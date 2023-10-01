@@ -3,7 +3,7 @@ from datetime import datetime
 from utils import get_date, mask_card_number, mask_account_number
 
 # Загрузка данных из файла operations.json
-with open('operations.json', 'r', encoding='utf-8') as file:
+with open('../data/operations.json', 'r', encoding='utf-8') as file:
     operations_data = json.load(file)
 
 # Фильтрация операций
@@ -24,8 +24,10 @@ last_5_operations = executed_operations[:5]
 for operation in last_5_operations:
     date = datetime.fromisoformat(operation['date']).strftime('%d.%m.%Y')
     description = operation['description']
-    from_value = operation.get('from', '')  # Значение поля 'from'
-    to_value = operation['to']  # Значение поля 'to'
+    # Значение поля 'from'
+    from_value = operation.get('from', '')
+    # Значение поля 'to'
+    to_value = operation['to']
 
     # Определяем, является ли 'from' номером счета или номером карты
     if from_value.startswith('Счет'):
