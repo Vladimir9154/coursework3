@@ -56,29 +56,30 @@ def sort_operations(executed_operations):
     executed_operations.sort(key=get_date, reverse=True)
 
 
-def show_last_5_operations_info(last_5_operations):
+def get_last_5_operations_info(last_5_operations):
+    result = []
+
     for operation in last_5_operations:
         date = datetime.fromisoformat(operation['date']).strftime('%d.%m.%Y')
         description = operation['description']
-        # Значение поля 'from'
         from_value = operation.get('from', '')
-        # Значение поля 'to'
         to_value = operation['to']
 
-        # Определяем, является ли 'from' номером счета или номером карты
         if from_value.startswith('Счет'):
             from_account = mask_account_number(from_value)
         else:
             from_account = mask_card_number(from_value)
 
-        # Определяем, является ли 'to' номером счета или номером карты
         if to_value.startswith('Счет'):
             to_account = mask_account_number(to_value)
         else:
             to_account = mask_card_number(to_value)
+
         amount = float(operation['operationAmount']['amount'])
         currency = operation['operationAmount']['currency']['name']
 
-        print(f"{date} {description}")
-        print(f"{from_account} -> {to_account}")
-        print(f"{amount} {currency}\n")
+        result.append(f"{date} {description}")
+        result.append(f"{from_account} -> {to_account}")
+        result.append(f"{amount} {currency}\n")
+
+    return '\n'.join(result)

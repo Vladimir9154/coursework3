@@ -1,5 +1,5 @@
 from utils import load_operations_data, filter_operations, sort_operations, \
-    show_last_5_operations_info
+    get_last_5_operations_info
 
 # указываем путь к операциям
 operations_path = '../data/operations.json'
@@ -18,4 +18,4 @@ last_5_operations = executed_operations[:5]
 
 
 # Вывод информации о последних операциях
-show_last_5_operations_info(last_5_operations)
+print(get_last_5_operations_info(last_5_operations))

@@ -1,8 +1,7 @@
-import pytest
 from datetime import datetime
 from src.utils import mask_card_number, get_date, mask_account_number, \
-    filter_operations, load_operations_data, show_last_5_operations_info, \
-    sort_operations
+    filter_operations, load_operations_data, \
+    sort_operations, get_last_5_operations_info
 
 
 # тест фильтрации операций
@@ -67,7 +66,7 @@ def test_mask_account_number():
 
 # тест загрузки операций
 def test_load_operations_data():
-    operations_path = '../tests/data/test_operations.json'
+    operations_path = r'C:\Users\Volan\PycharmProjects\coursework3\tests\data\test_operations.json'
     result = load_operations_data(operations_path)
     expected = [
         {
@@ -102,24 +101,43 @@ def test_sort_operations():
         assert get_date(operation) == expected_dates[i]
 
 
-#
-# def test_show_last_5_operations_info():
-#     # указываем путь к операциям
-#     operations_path = '../data/operations.json'
-#
-#     # Загрузка данных из файла operations.json
-#     operations_data = load_operations_data(operations_path)
-#
-#     # Фильтрация операций
-#     executed_operations = filter_operations(operations_data)
-#
-#     # Сортировка операций по дате
-#     sort_operations(executed_operations)
-#
-#     # Выбор последних 5 операций
-#     last_5_operations = executed_operations[:5]
-#
-#     result = show_last_5_operations_info(last_5_operations)
-#
-#     expected = None
-#     assert result == expected
+def test_get_last_5_operations_info():
+    # указываем путь к операциям
+    operations_path = r'C:\Users\Volan\PycharmProjects\coursework3\data\operations.json'
+
+    # Загрузка данных из файла operations.json
+    operations_data = load_operations_data(operations_path)
+
+    # Фильтрация операций
+    executed_operations = filter_operations(operations_data)
+
+    # Сортировка операций по дате
+    sort_operations(executed_operations)
+
+    # Выбор последних 5 операций
+    last_5_operations = executed_operations[:5]
+
+    result = get_last_5_operations_info(last_5_operations)
+
+    expected = """08.12.2019 Открытие вклада
+ -> Счет **5907
+41096.24 USD
+
+07.12.2019 Перевод организации
+Visa Classic 2842 87** **** 9012 -> Счет **3655
+48150.39 USD
+
+19.11.2019 Перевод организации
+Maestro 7810 84** **** 5568 -> Счет **2869
+30153.72 руб.
+
+13.11.2019 Перевод со счета на счет
+Счет **9794 -> Счет **8125
+62814.53 руб.
+
+05.11.2019 Открытие вклада
+ -> Счет **8381
+21344.35 руб.
+"""
+
+    assert result == expected
